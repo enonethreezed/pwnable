@@ -12,7 +12,6 @@ Vagrant.configure("2") do |config|
       if id vagrant &>/dev/null; then
         PASS=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 20)
         echo "vagrant:${PASS}" | chpasswd
-        rm -f /etc/sudoers.d/vagrant
       fi
     SHELL
   end

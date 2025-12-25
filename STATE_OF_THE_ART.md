@@ -33,7 +33,7 @@
 Keep this README updated as further provisioning steps are completed.
 
 ## Review Status
-- In progress: user12 → root (nmap520 validation).
+- Done: user12 → root validated, root secret created.
 
 ## Recent Changes
 - `u8-view` now uses `chdir` + `execl` to keep user8 privileges for `less`.
@@ -42,12 +42,12 @@ Keep this README updated as further provisioning steps are completed.
 - Sudoers cleanup now preserves all challenge-specific drop-ins.
 
 ## User Provisioning & Maintenance Scripts
-- Added `scripts/provision_users.sh` to (re)create `user1` … `user9` plus `user0` (future attacker role).
+- Added `scripts/provision_users.sh` to (re)create `user1` … `user12` plus `user0` (future attacker role).
 - Script ensures `user1` keeps password `user1` and generates random 16-character alphanumeric passwords (via `python3 -c "import secrets,string;print(''.join(secrets.choice(string.ascii_letters+string.digits) for _ in range(16)))"`) for the remaining users, applies them with `chpasswd`, and stores the pairs in `/root/ctf-users.txt` (mode `600`).
 - Each user receives a home directory and `/bin/bash` shell; no sudo or extra groups assigned by default.
 - To re-run: `sudo bash /vagrant/scripts/provision_users.sh` from inside the VM. Remove `/root/ctf-users.txt` or rotate passwords before publishing the challenge.
 - Added `scripts/update_and_harden.sh` to run `apt-get update && full-upgrade` and enforce non-SUID permissions on `/usr/bin/pkexec`. Execute as root (`sudo bash /vagrant/scripts/update_and_harden.sh`) and reboot afterwards if the kernel was upgraded.
-- `scripts/setup_challenge.sh` deploys the hint file, the `rot13.sh` helper, the encoded blob in `/var/tmp/secret.txt`, and all subsequent escalation mechanics (user3’s backup cron, the auxiliary `u4view` binary, user5’s `systemd --user` service, the SUID `awk`, etc.). It also purges every drop-in in `/etc/sudoers.d/` except the controlled `00-ctf-sudo` (which keeps privileges for `%sudo` only) and removes every CTF account from the sudo group. As a cosmetic touch, it installs `figlet`, generates the “La Casa de La Llama        CTF” banner, and writes it both to `/home/vagrant/motd.txt` and `/etc/motd`. Finally, it wipes `/tmp/vagrant-shell` so no provisioner artifacts remain.
+- `scripts/setup_challenge.sh` deploys the hint file, the `rot13.sh` helper, the encoded blob in `/var/tmp/secret.txt`, and all subsequent escalation mechanics (user3’s backup cron, the auxiliary `u4view` binary, user5’s `systemd --user` service, the SUID `awk`, etc.). It also purges every drop-in in `/etc/sudoers.d/` except the controlled `00-ctf-sudo` (which keeps privileges for `%sudo` only) and removes every CTF account from the sudo group. As a cosmetic touch, it installs `figlet`, generates the “Demencia Shell-nil” banner, and writes it both to `/home/vagrant/motd.txt` and `/etc/motd`. Finally, it wipes `/tmp/vagrant-shell` so no provisioner artifacts remain.
 
 ## Challenge Hooks
 - User1 → User2: `/var/tmp/secret.txt` belongs to group `user2`, is world-readable, and contains the password for user2 (reverse → ROT13 → Base64). The cleartext is `A7kP3xQ8nZ1wR5L6`.

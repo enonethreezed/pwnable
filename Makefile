@@ -26,6 +26,7 @@ up:
 
 ctf:
 	CTFADMIN=false vagrant up --provision
+	CTFADMIN=false vagrant provision
 
 provision:
 	vagrant provision

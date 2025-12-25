@@ -290,33 +290,9 @@ user11 ALL=(user12) NOPASSWD: /usr/bin/vim /var/log/app/user12.log
 USER11SUDO
 chmod 0440 /etc/sudoers.d/user11-vim
 
-install -d -m 0750 -o user13 -g user13 /opt/user13
-cat <<'USER13CFG' > /opt/user13/config.cfg
-[default]
-enabled=true
-USER13CFG
-chown user13:user13 /opt/user13/config.cfg
-chmod 0644 /opt/user13/config.cfg
-
-cat <<'U14SRC' > /usr/local/src/u14_edit.c
-#include <stdlib.h>
-
-int main(void) {
-    return system("nano /opt/user13/config.cfg");
-}
-U14SRC
-gcc /usr/local/src/u14_edit.c -o /usr/local/bin/u14-edit
-chown user13:user12 /usr/local/bin/u14-edit
-chmod 4750 /usr/local/bin/u14-edit
-
-cat <<'USER12HINT' > /home/user12/user13.txt
-Notas rápidas:
-- Para editar `/opt/user13/config.cfg` cuando user13 está de vacaciones, uso `/usr/local/bin/u14-edit`.
-- No hace nada más que invocar `nano`; si sabes cómo salirte de ahí, puedes probar suerte.
-- Config está en `/opt/user13/config.cfg`.
-USER12HINT
-chown user12:user12 /home/user12/user13.txt
-chmod 0644 /home/user12/user13.txt
+# Cleanup legacy artifacts from the removed user12->user13 step.
+rm -f /usr/local/bin/u14-edit /usr/local/src/u14_edit.c /home/user12/user13.txt
+rm -rf /opt/user12
 
 if [[ ! -x /usr/local/lib/nmap520/nmap ]]; then
   apt-get update -y
@@ -387,14 +363,20 @@ gcc /usr/local/src/nmap520_wrapper.c -o /usr/local/bin/nmap520
 chown root:user12 /usr/local/bin/nmap520
 chmod 4750 /usr/local/bin/nmap520
 
-cat <<'USER19HINT' > /home/user12/root.txt
+cat <<'USER12HINT' > /home/user12/root.txt
 Notas rápidas:
 - Solo tengo acceso a `nmap520`, una versión antigua con el modo `--interactive` vulnerable.
 - Ejecuta `nmap520 --interactive` y usa `!sh` para invocar una shell como root.
 - Este binario es SUID root y solo nosotros podemos usarlo; úsalo con cuidado.
-USER19HINT
+USER12HINT
 chown user12:user12 /home/user12/root.txt
 chmod 0644 /home/user12/root.txt
+
+cat <<'ROOTSECRET' > /root/secret.txt
+Enhorabuena, has llegado a root. Buen trabajo.
+ROOTSECRET
+chown root:root /root/secret.txt
+chmod 0600 /root/secret.txt
 
 if ! command -v figlet >/dev/null 2>&1; then
   apt-get update -y
