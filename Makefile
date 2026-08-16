@@ -1,47 +1,39 @@
-.PHONY: help install up provision halt reload destroy ssh status rebuild clean ctf
+.DEFAULT_GOAL := up
+
+.PHONY: help up provision halt reload destroy ssh status rebuild clean
+
+VM ?=
 
 help:
 	@echo "Targets:"
-	@echo "  install    Install host dependencies (VirtualBox + Vagrant on Ubuntu)"
-	@echo "  up         Create and provision the VM"
-	@echo "  ctf        Create/provision with CTFADMIN=false (lock vagrant password)"
-	@echo "  provision  Re-run provisioners"
-	@echo "  halt       Stop the VM"
-	@echo "  reload     Restart the VM"
-	@echo "  destroy    Destroy the VM"
-	@echo "  ssh        SSH into the VM"
-	@echo "  status     Show VM status"
-	@echo "  rebuild    Destroy and rebuild the VM"
+	@echo "  up         Create and provision all 11 lab nodes"
+	@echo "  provision  Re-run provisioners (set VM=nodeN for one node)"
+	@echo "  halt       Stop all nodes (set VM=nodeN for one node)"
+	@echo "  reload     Restart all nodes (set VM=nodeN for one node)"
+	@echo "  destroy    Destroy all nodes (set VM=nodeN for one node)"
+	@echo "  ssh        Connect with Vagrant (requires VM=nodeN)"
+	@echo "  status     Show node status"
+	@echo "  rebuild    Destroy and recreate all nodes"
 	@echo "  clean      Remove local Vagrant artifacts (.vagrant)"
-	@echo ""
-	@echo "Environment:"
-	@echo "  CTFADMIN=false  Randomize vagrant password and remove its sudo drop-in"
-
-install:
-	sudo apt update
-	sudo apt install --yes virtualbox virtualbox-dkms virtualbox-ext-pack vagrant
 
 up:
 	vagrant up --provision
 
-ctf:
-	CTFADMIN=false vagrant up --provision
-	CTFADMIN=false vagrant provision
-
 provision:
-	vagrant provision
+	vagrant provision $(VM)
 
 halt:
-	vagrant halt
+	vagrant halt $(VM)
 
 reload:
-	vagrant reload
+	vagrant reload $(VM)
 
 destroy:
-	vagrant destroy -f
+	vagrant destroy -f $(VM)
 
 ssh:
-	vagrant ssh
+	@test -n "$(VM)" || (echo "Set VM=nodeN" >&2; exit 1)
+	vagrant ssh $(VM)
 
 status:
 	vagrant status
