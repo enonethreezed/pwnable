@@ -157,4 +157,4 @@ chmod 0600 /root/user.txt
 
 # Vagrant needs its bootstrap privileges only while this provisioner runs.
 gpasswd -d vagrant sudo 2>/dev/null || true
-rm -f /etc/sudoers.d/vagrant
+rm -f /etc/sudoers.d/vagrant /etc/sudoers.d/99_vagrant
