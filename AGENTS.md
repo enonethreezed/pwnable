@@ -6,8 +6,6 @@ The user provides intent and decisions; the agent executes precisely. Do not add
 
 Use English in responses. Be terse, direct, and information-dense. Do not propose unsolicited alternatives or next steps.
 
-Never run `ludus` commands unless the user explicitly instructs it.
-
 ## Tracking
 
 Beads (`bd`) and GitHub Issues are the only permitted task-tracking systems. Do not use Markdown TODO lists, GitHub-only work items, or any other issue tracker.
