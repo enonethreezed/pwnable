@@ -35,7 +35,7 @@
 
 - `Vagrantfile` defines the topology and calls `scripts/provision_node.sh` once per node.
 - The provisioner updates the guest, removes SUID from `pkexec`, enables password SSH, and revokes Vagrant's bootstrap sudo access after provisioning.
-- Passwords are sourced from `PASSWORDS.md`; only `user1` through `user11` are used by the new lab.
+- The provisioner configures credentials for `user1` through `user11`.
 
 ## Validation Status
 
@@ -45,6 +45,5 @@
 
 ## Documentation Status
 
-- `README.md`, `INSTALL.md`, `CTF.md`, `SOLUTIONS.md`, and `PASSWORDS.md` still contain material from the retired single-VM lab.
-- Do not treat those files as current player documentation.
-- After end-to-end validation, replace player-facing documentation with the minimal deployment instruction and move solution material outside the player-facing repository or ignore it as appropriate.
+- `README.md`, `INSTALL.md`, and `CTF.md` describe the current player flow without exploitation commands or next-hop credentials.
+- Keep solutions and credential lists outside the player-facing repository until they are required for maintenance.

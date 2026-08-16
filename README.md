@@ -1,10 +1,13 @@
-# Pwnable00 Beginner CTF
+# Pwnable00
 
-Welcome to a hands-on capture-the-flag for people taking their first steps into Linux privilege escalation. The virtual machine contains a long chain of users, and every jump relies on nothing but misconfigured permissions: writable cron jobs, risky SUID binaries, sloppy sudo rules, and files with the wrong ownership. No kernel exploits, no fuzzing—just careful enumeration and abuse of everyday mistakes.
+Pwnable00 is a beginner Linux privilege-escalation lab made of eleven Ubuntu virtual machines connected through a private network. Each machine has one intended path from its player account to root. Reaching root reveals the SSH credentials for the next machine.
 
-Because the challenges mirror real-world paths, [GTFOBins](https://gtfobins.github.io/) is your best friend. If a binary shows up with SUID or sudo, look it up there and replicate the documented technique inside this lab.
+Start the lab with:
 
-Need the full background on how the VM is provisioned, the escalation storyline, or exact solutions? Check `STATE_OF_THE_ART.md`, `CTF.md`, and `SOLUTIONS.md`.
+```bash
+make
+```
 
-## Network Isolation
-`scripts/setup_challenge.sh` enables `ufw` inside each VM with a default deny (incoming/outgoing) policy. Only loopback traffic and inbound SSH (TCP/22) stay open, preventing contestants from pivoting to the wider network while still allowing SSH access through the forwarded port.
+The initial target is `user1@192.168.56.11` with password `user1`.
+
+See `INSTALL.md` for host requirements and `CTF.md` for player rules.

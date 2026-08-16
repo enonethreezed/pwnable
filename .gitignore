@@ -4,3 +4,8 @@
 *.bak
 *~
 *.ova
+
+# Local spoiler material
+SOLUTIONS.local.md
+PASSWORDS.local.md
+notes/
